@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>建立留言</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="header">
+        <a href="{{ url_for('index') }}" style="text-decoration: none;"><h1>留言板</h1></a>
+    </div>
+    <div class="posts-container">
+        <h2>發帖吧 ~</h2>
+        <form method="post" action="{{ url_for('create_post') }}" class="create-post-form">
+            <label for="title">標題:</label>
+            <input type="text" id="title" name="title" required class="input-field">
+
+            <label for="author">作者:</label>
+            <input type="text" id="author" name="author" required class="input-field">
+            
+            <label for="content">內容:</label>
+            <textarea id="content" name="content" rows="4" required class="textarea-field"></textarea>
+            
+            <button type="submit" class="submit-button">提交</button>
+        </form>
+        <div class="create-post-link">
+            <a href="{{ url_for('index') }}">取消</a>
+        </div>
+    </div>
+</body>
+</html>

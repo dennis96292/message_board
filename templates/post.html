@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ post['title'] }}</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="header">
+        <a href="{{ url_for('index') }}" style="text-decoration: none;"><h1>留言板</h1></a>
+    </div>
+    <div class="post-container">
+        <div class="back-to-list-link">
+            <a href="{{ url_for('index') }}">返回留言板主頁</a>
+        </div>
+        <h1 class="post-title">{{ post['title'] }}</h1>
+        <p class="post-content">{{ post['content']|safe }}</p>
+        <p class="post-info">發布於 {{ post['timestamp'] if post['timestamp'] is string else (post['timestamp'].strftime('%Y-%m-%d %H:%M:%S') if post['timestamp'] else '') }}
+        
+
+        <div class="comments-section">
+            <h2>回覆</h2>
+            <ul>
+                {% for comment in post['comments'] %}
+                    <li>
+                        <strong>{{ comment['author'] }}</strong>: {{ comment['content'] }}
+                    </li>
+                {% endfor %}
+            </ul>
+            </br>
+            </br>
+            </br>
+            <div class="comment-form">
+                <h3>回覆此留言</h3>
+                <form method="post" action="{{ url_for('add_comment', post_id=post['id']) }}">
+                    <label for="comment-author">回覆者:</label>
+                    <input type="text" id="comment-author" name="comment_author" required>
+
+                    <label for="comment-content">回覆內容:</label>
+                    <textarea id="comment-content" name="comment_content" rows="4" required></textarea>
+
+                    <div class="form-buttons">
+                        <button type="submit">提交</button>
+                        <a href="{{ url_for('index') }}">取消</a>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</body>
+</html>

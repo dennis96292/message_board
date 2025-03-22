@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>留言板</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="header">
+        <a href="{{ url_for('index') }}" style="text-decoration: none;"><h1>留言板</h1></a>
+    </div>
+    <div class="create-post-link">
+        <a href="{{ url_for('create_post') }}">去留帖吧~</a>
+    </div>
+    <div class="posts-container">
+        <h2>全部留言</h2>
+        <ul>
+            {% for post in posts %}
+                <li class="post">
+                    <a href="{{ url_for('post', post_id=post['id']) }}">
+                        {{ post['title'] }}
+                    </a>
+                    ({{ post['timestamp'] if post['timestamp'] is string else (post['timestamp'].strftime('%Y-%m-%d %H:%M:%S') if post['timestamp'] else '') }})
+                    by {{ post['author'] }}
+                </li>
+            {% endfor %}
+        </ul>    
+    </div>
+    <div class="pagination">
+        {% if current_page > 1 %}
+            <a href="{{ url_for('index', page=current_page-1, per_page=per_page) }}">上一頁</a>
+        {% endif %}
+        
+        <span>第 {{ current_page }} 頁 / 共 {{ (total_posts / per_page)|round(0, 'ceil')|int }} 頁</span>
+        
+        {% if current_page * per_page < total_posts %}
+            <a href="{{ url_for('index', page=current_page+1, per_page=per_page) }}">下一頁</a>
+        {% endif %}
+    </div>
+    
+    <style>
+    .pagination {
+        margin: 20px 0;
+        text-align: center;
+    }
+    .pagination a {
+        display: inline-block;
+        padding: 8px 16px;
+        background: #2c2c2c;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        margin: 0 5px;
+    }
+    </style>
+</body>
+</html>
