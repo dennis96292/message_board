@@ -1,3 +1,4 @@
 Flask
 Markdown
 pytz
+python-dotenv==1.0.1
